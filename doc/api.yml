@@ -125,6 +125,40 @@ paths:
           $ref: "#/components/responses/500"
         404:
           $ref: "#/components/responses/404"
+  /projects:
+    get:
+      tags:
+        - Projects
+      security:
+        - [ ]
+      summary: Get the list of all projects
+      operationId: getAllProjects
+      parameters:
+        - in: query
+          name: page
+          schema:
+            $ref: '#/components/schemas/Page'
+        - in: query
+          name: pageSize
+          schema:
+            $ref: '#/components/schemas/PageSize'
+      responses:
+        200:
+          description: List of existing projects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Project'
+        400:
+          $ref: "#/components/responses/400"
+        500:
+          $ref: "#/components/responses/500"
+        404:
+          $ref: "#/components/responses/404"
+
+
 components:
   securitySchemes:
     BearerAuth:
@@ -200,6 +234,12 @@ components:
       example:
         type: TooManyRequestsException
         message: Too many requests
+    Page:
+      type: integer
+      description: Start at `1`
+    PageSize:
+      type: integer
+      description: Cannot exceed `500`
     Whoami:
       properties:
         user:
@@ -229,4 +269,38 @@ components:
           type: string
         firebaseId:
           type: string
+    ProjectStatus:
+      type: string
+      enum:
+        - OPEN
+        - CLOSE
+    ProjectHealth:
+      type: string
+      enum:
+        - SUCCESS
+        - FAILED
+    CreateProject:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        targetAmount:
+          type: number
+        deadline:
+          type: string
+          format: date-time
+        status:
+          $ref: '#/components/schemas/ProjectStatus'
+        health:
+          $ref: '#/components/schemas/ProjectHealth'
+    Project:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/CreateProject'
+      properties:
+        id:
+          type: string
+
 
