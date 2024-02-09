@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.hackaton.kotikota.endpoint.rest.exception.BadRequestException;
 import org.hackaton.kotikota.endpoint.rest.exception.ForbiddenException;
 import org.hackaton.kotikota.endpoint.rest.exception.NotFoundException;
+import org.hackaton.kotikota.endpoint.rest.exception.NotImplementedException;
 import org.hackaton.kotikota.endpoint.rest.model.Exception;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -67,6 +68,12 @@ public class InternalToRestExceptionHandler {
   @ExceptionHandler(value = {NotFoundException.class})
   ResponseEntity<Exception> handleNotFound(NotFoundException e) {
     return new ResponseEntity<>(toRest(e, NOT_FOUND), NOT_FOUND);
+  }
+
+  @ExceptionHandler(value = {NotImplementedException.class})
+  ResponseEntity<Exception> handleNotImplemented(NotImplementedException e) {
+    log.error("Not implemented", e);
+    return new ResponseEntity<>(toRest(e, HttpStatus.NOT_IMPLEMENTED), HttpStatus.NOT_IMPLEMENTED);
   }
 
   private Exception toRest(java.lang.Exception e, HttpStatus status) {

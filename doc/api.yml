@@ -263,7 +263,7 @@ paths:
         - Projects
       summary: get all donations made on a project
       security: [ ]
-      operationId: getTransactionsByProjectId
+      operationId: getDonationsByProjectId
       parameters:
         - name: projectId
           in: path
@@ -275,6 +275,18 @@ paths:
           required: false
           schema:
             type: string
+        - name: beginDate
+          in: query
+          schema:
+            type: string
+            format: date
+          required: false
+        - name: endDate
+          in: query
+          schema:
+            type: string
+            format: date
+          required: false
       responses:
         200:
           description: The donations made on the project
@@ -480,7 +492,7 @@ components:
       properties:
         amount:
           type: integer
-          format: int64
+          format: int32
           description: realAmount times 100 to avoid floating points
         source:
           type: string
@@ -488,18 +500,14 @@ components:
         destination:
           type: string
           description: projectId of the receiver project
+        reason:
+          type: string
     ProjectDonation:
-      type: object
+      allOf:
+        - $ref: "#/components/schemas/CreateProjectDonation"
       properties:
         id:
           type: string
-        amount:
-          type: integer
-          format: int64
-          description: realAmount times 100 to avoid floating points
-        source:
+        creationDatetime:
           type: string
-          description: userId of the donator
-        destination:
-          type: string
-          description: projectId of the receiver project
+          format: date-time
