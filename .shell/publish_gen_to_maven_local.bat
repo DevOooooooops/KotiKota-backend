@@ -1,0 +1,1 @@
+publish_gen_to_maven_local.bat
