@@ -9,7 +9,7 @@ security:
   - BearerAuth: [ ]
 
 paths:
-  '/hello':
+  /hello:
     get:
       security:
         [ ]
@@ -24,7 +24,7 @@ paths:
               schema:
                 type: string
                 example: "Hello"
-  '/whoami':
+  /whoami:
     get:
       tags:
         - Security
@@ -257,6 +257,72 @@ paths:
           $ref: "#/components/responses/500"
         404:
           $ref: "#/components/responses/404"
+  /projects/{projectId}/donations:
+    get:
+      tags:
+        - Projects
+      summary: get all donations made on a project
+      security: [ ]
+      operationId: getTransactionsByProjectId
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: source
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        200:
+          description: The donations made on the project
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ProjectDonation"
+        403:
+          $ref: "#/components/responses/403"
+        404:
+          $ref: "#/components/responses/404"
+        500:
+          $ref: "#/components/responses/500"
+    post:
+      tags:
+        - Projects
+      summary: donate some money to a project
+      operationId: donate
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/CreateProjectDonation"
+      responses:
+        200:
+          description: The created donations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ProjectDonation"
+        403:
+          $ref: "#/components/responses/403"
+        404:
+          $ref: "#/components/responses/404"
+        500:
+          $ref: "#/components/responses/500"
 components:
   securitySchemes:
     BearerAuth:
@@ -409,3 +475,31 @@ components:
           $ref: '#/components/schemas/ProjectStatus'
         health:
           $ref: '#/components/schemas/ProjectHealth'
+    CreateProjectDonation:
+      type: object
+      properties:
+        amount:
+          type: integer
+          format: int64
+          description: realAmount times 100 to avoid floating points
+        source:
+          type: string
+          description: userId of the donator
+        destination:
+          type: string
+          description: projectId of the receiver project
+    ProjectDonation:
+      type: object
+      properties:
+        id:
+          type: string
+        amount:
+          type: integer
+          format: int64
+          description: realAmount times 100 to avoid floating points
+        source:
+          type: string
+          description: userId of the donator
+        destination:
+          type: string
+          description: projectId of the receiver project
