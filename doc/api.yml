@@ -125,6 +125,93 @@ paths:
           $ref: "#/components/responses/500"
         404:
           $ref: "#/components/responses/404"
+  /projects:
+    get:
+      tags:
+        - Projects
+      security: [ ]
+      summary: Get the list of all projects
+      operationId: getAllProjects
+      parameters:
+        - in: query
+          name: ownerId
+          description: Filter projects by ownerId
+          schema:
+            type: string
+        - in: query
+          name: page
+          schema:
+            $ref: '#/components/schemas/Page'
+        - in: query
+          name: pageSize
+          schema:
+            $ref: '#/components/schemas/PageSize'
+      responses:
+        200:
+          description: List of existing projects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Project'
+        400:
+          $ref: "#/components/responses/400"
+        500:
+          $ref: "#/components/responses/500"
+    put:
+      tags:
+        - Projects
+      summary: Create or update projects
+      operationId: crupdateProjects
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Project'
+      responses:
+        200:
+          description: The created projects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Project"
+        400:
+          $ref: "#/components/responses/400"
+        403:
+          $ref: "#/components/responses/403"
+        500:
+          $ref: "#/components/responses/500"
+        404:
+          $ref: "#/components/responses/404"
+  /projects/{projectId}:
+    get:
+      tags:
+        - Projects
+      summary: Get a specific project by id
+      operationId: getProjectById
+      security: [ ]
+      parameters:
+        - name: projectId
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        200:
+          description: The Project
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        500:
+          $ref: "#/components/responses/500"
+        404:
+          $ref: "#/components/responses/404"
 components:
   securitySchemes:
     BearerAuth:
@@ -200,6 +287,12 @@ components:
       example:
         type: TooManyRequestsException
         message: Too many requests
+    Page:
+      type: integer
+      description: Start at `1`
+    PageSize:
+      type: integer
+      description: Cannot exceed `500`
     Whoami:
       properties:
         user:
@@ -229,4 +322,34 @@ components:
           type: string
         firebaseId:
           type: string
-
+    ProjectStatus:
+      type: string
+      enum:
+        - OPEN
+        - CLOSE
+    ProjectHealth:
+      type: string
+      enum:
+        - SUCCESS
+        - FAILED
+        - IN_PROGRESS
+    Project:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        targetAmount:
+          type: number
+        deadline:
+          type: string
+          format: date-time
+        ownerId:
+          type: string
+        status:
+          $ref: '#/components/schemas/ProjectStatus'
+        health:
+          $ref: '#/components/schemas/ProjectHealth'
