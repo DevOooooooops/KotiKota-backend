@@ -8,12 +8,8 @@ import org.hackaton.kotikota.endpoint.rest.security.auth.firebase.FirebaseConf;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 public class CustomFacadeIT extends FacadeIT {
-    @MockBean
-    protected FirebaseConf firebaseConfMock;
-    @MockBean
-    protected FirebaseApp firebaseAppMock;
-    @MockBean
-    protected FirebaseAuth firebaseAuthMock;
-    @MockBean
-    protected FirebaseAuthenticator firebaseAuthenticator;
+  @MockBean protected FirebaseConf firebaseConfMock;
+  @MockBean protected FirebaseApp firebaseAppMock;
+  @MockBean protected FirebaseAuth firebaseAuthMock;
+  @MockBean protected FirebaseAuthenticator firebaseAuthenticator;
 }
