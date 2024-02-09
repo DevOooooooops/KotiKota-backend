@@ -93,6 +93,8 @@ public class SecurityConf {
                     .permitAll()
                     .requestMatchers(PUT, "/projects")
                     .authenticated()
+                    .requestMatchers(GET, "/whoami")
+                    .authenticated()
                     .requestMatchers("/**")
                     .denyAll());
     return http.build();
