@@ -9,6 +9,21 @@ security:
   - BearerAuth: [ ]
 
 paths:
+  '/hello':
+    get:
+      security:
+        [ ]
+      tags:
+        - Health
+      operationId: greet
+      responses:
+        200:
+          description: health check greets you
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Hello"
   '/whoami':
     get:
       tags:
