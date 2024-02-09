@@ -358,7 +358,7 @@ components:
         description:
           type: string
         targetAmount:
-          type: number
+          type: integer
         deadline:
           type: string
           format: date-time

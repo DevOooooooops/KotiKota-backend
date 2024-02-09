@@ -2,6 +2,7 @@ package org.hackaton.kotikota.endpoint.rest.security;
 
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.OPTIONS;
+import static org.springframework.http.HttpMethod.PUT;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -75,7 +76,9 @@ public class SecurityConf {
                 new NegatedRequestMatcher(
                     new OrRequestMatcher(
                         new AntPathRequestMatcher("/**", OPTIONS.toString()),
-                        new AntPathRequestMatcher("/hello", GET.toString())))),
+                        new AntPathRequestMatcher("/hello", GET.toString()),
+                        new AntPathRequestMatcher("/projects", GET.toString()),
+                        new AntPathRequestMatcher("/projects/*", GET.toString())))),
             AnonymousAuthenticationFilter.class)
         .authorizeHttpRequests(
             (authorize) ->
@@ -84,6 +87,12 @@ public class SecurityConf {
                     .permitAll()
                     .requestMatchers(GET, "/hello")
                     .permitAll()
+                    .requestMatchers(GET, "/projects")
+                    .permitAll()
+                    .requestMatchers(GET, "/projects/*")
+                    .permitAll()
+                    .requestMatchers(PUT, "/projects")
+                    .authenticated()
                     .requestMatchers("/**")
                     .denyAll());
     return http.build();
