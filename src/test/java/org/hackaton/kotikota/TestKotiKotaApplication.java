@@ -10,14 +10,13 @@ import org.testcontainers.utility.DockerImageName;
 @TestConfiguration(proxyBeanMethods = false)
 public class TestKotiKotaApplication {
 
-    @Bean
-    @ServiceConnection
-    PostgreSQLContainer<?> postgresContainer() {
-        return new PostgreSQLContainer<>(DockerImageName.parse("postgres:latest"));
-    }
+  @Bean
+  @ServiceConnection
+  PostgreSQLContainer<?> postgresContainer() {
+    return new PostgreSQLContainer<>(DockerImageName.parse("postgres:latest"));
+  }
 
-    public static void main(String[] args) {
-        SpringApplication.from(KotiKotaApplication::main).with(TestKotiKotaApplication.class).run(args);
-    }
-
+  public static void main(String[] args) {
+    SpringApplication.from(KotiKotaApplication::main).with(TestKotiKotaApplication.class).run(args);
+  }
 }

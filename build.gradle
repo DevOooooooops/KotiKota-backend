@@ -1,8 +1,12 @@
+import org.apache.tools.ant.taskdefs.condition.Os
+import org.openapitools.generator.gradle.plugin.tasks.GenerateTask
+
 plugins {
     id 'java'
     id 'org.springframework.boot' version '3.2.2'
     id 'io.spring.dependency-management' version '1.1.4'
     id 'org.asciidoctor.jvm.convert' version '3.3.2'
+    id 'org.openapi.generator' version '5.2.0'
 }
 
 group = 'org.hackaton'
@@ -12,6 +16,57 @@ java {
     sourceCompatibility = '17'
 }
 
+task generateReactNativeClient(type: GenerateTask) {
+    generatorName = "typescript-fetch"
+    inputSpec = "$rootDir/doc/api.yml".toString()
+    outputDir = "$buildDir/gen-react-native-ts".toString()
+    typeMappings = [
+            Date    : "Date",
+            DateTime: "Date",
+    ]
+    additionalProperties = [
+            enumPropertyNaming: "original",
+            npmName           : "@kotikota/react-native-typescript-client",
+            npmVersion        : project.properties["args"] ?: "latest"
+    ]
+}
+
+task generateJavaClient(type: GenerateTask) {
+    generatorName = "java"
+    inputSpec = "$rootDir/doc/api.yml".toString()
+    outputDir = "$buildDir/gen".toString()
+    apiPackage = "org.hackaton.kotikota.endpoint.rest.api"
+    invokerPackage = "org.hackaton.kotikota.endpoint.rest.client"
+    modelPackage = "org.hackaton.kotikota.endpoint.rest.model"
+
+    configOptions = [
+            serializationLibrary: "jackson",
+            dateLibrary: "custom"
+    ]
+    typeMappings = [
+            // What date-time type to use when? https://i.stack.imgur.com/QPhGW.png
+            Date: "java.time.LocalDate",
+            DateTime: "java.time.Instant",
+    ]
+    library = "native"
+
+    groupId = 'org.hackaton'
+    id = 'kotikota-gen'
+    skipValidateSpec = false
+    logToStderr = true
+    generateAliasAsModel = false
+    enablePostProcessFile = false
+}
+
+task publishJavaClientToMavenLocal(type: Exec, dependsOn: generateJavaClient) {
+    if (Os.isFamily(Os.FAMILY_WINDOWS)){
+        commandLine './.shell/publish_gen_to_maven_local.bat'
+    } else {
+        commandLine './.shell/publish_gen_to_maven_local.sh'
+    }
+}
+tasks.compileJava.dependsOn publishJavaClientToMavenLocal
+
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
@@ -20,6 +75,7 @@ configurations {
 
 repositories {
     mavenCentral()
+    mavenLocal()
 }
 
 ext {
@@ -36,6 +92,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+    implementation 'org.openapitools:jackson-databind-nullable:0.2.6'
+    implementation 'org.flywaydb:flyway-core'
+    implementation 'org.hackaton:kotikota-gen:latest'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'org.postgresql:postgresql'
