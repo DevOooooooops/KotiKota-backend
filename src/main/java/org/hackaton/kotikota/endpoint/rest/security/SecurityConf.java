@@ -2,6 +2,7 @@ package org.hackaton.kotikota.endpoint.rest.security;
 
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.OPTIONS;
+import static org.springframework.http.HttpMethod.POST;
 import static org.springframework.http.HttpMethod.PUT;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
@@ -10,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.hackaton.kotikota.endpoint.rest.exception.ForbiddenException;
 import org.hackaton.kotikota.endpoint.rest.security.auth.AuthProvider;
 import org.hackaton.kotikota.endpoint.rest.security.auth.AuthenticatedResourceProvider;
+import org.hackaton.kotikota.endpoint.rest.security.matcher.SelfUserMatcher;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -94,6 +96,10 @@ public class SecurityConf {
                     .requestMatchers(PUT, "/projects")
                     .authenticated()
                     .requestMatchers(GET, "/whoami")
+                    .authenticated()
+                    .requestMatchers(
+                        new SelfUserMatcher(
+                            POST, "/users/*/deposits", authenticatedResourceProvider))
                     .authenticated()
                     .requestMatchers("/**")
                     .denyAll());

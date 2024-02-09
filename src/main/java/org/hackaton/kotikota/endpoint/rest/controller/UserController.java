@@ -4,8 +4,10 @@ import java.util.List;
 import lombok.AllArgsConstructor;
 import org.hackaton.kotikota.endpoint.rest.mapper.UserMapper;
 import org.hackaton.kotikota.endpoint.rest.model.CreateUser;
+import org.hackaton.kotikota.endpoint.rest.model.Money;
 import org.hackaton.kotikota.endpoint.rest.model.User;
 import org.hackaton.kotikota.endpoint.rest.model.UserProfile;
+import org.hackaton.kotikota.service.BankInfoService;
 import org.hackaton.kotikota.service.UserService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +22,7 @@ public class UserController {
   private final UserMapper mapper;
 
   private final UserService userService;
+  private final BankInfoService bankInfoService;
 
   @GetMapping("/users")
   public List<User> getAllUsers() {
@@ -39,5 +42,10 @@ public class UserController {
   @PutMapping("/users/{userId}/profile")
   public User updateUserProfile(@PathVariable String userId, @RequestBody UserProfile userProfile) {
     return mapper.toRest(userService.save(mapper.toDomain(userProfile, userId)));
+  }
+
+  @PutMapping("/users/{userId}/deposits")
+  public User deposit(@PathVariable String userId, @RequestBody Money money) {
+    return mapper.toRest(bankInfoService.deposit(userId, money));
   }
 }

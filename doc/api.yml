@@ -140,6 +140,36 @@ paths:
           $ref: "#/components/responses/500"
         404:
           $ref: "#/components/responses/404"
+  /users/{userId}/deposits:
+    post:
+      tags:
+        - Users
+      summary: deposit a certain amount to your kotikota account
+      operationId: deposit
+      parameters:
+        - name: userId
+          in: path
+          schema:
+            type: string
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Money"
+      responses:
+        200:
+          description: the user with an updated balance
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        400:
+          $ref: "#/components/responses/400"
+        500:
+          $ref: "#/components/responses/500"
+        404:
+          $ref: "#/components/responses/404"
   /projects:
     get:
       tags:
@@ -327,9 +357,10 @@ components:
       properties:
         profile:
           $ref: "#/components/schemas/UserProfile"
+        bankInfo:
+          $ref: "#/components/schemas/BankInfo"
       allOf:
         - $ref: "#/components/schemas/CreateUser"
-
     CreateUser:
       type: object
       properties:
@@ -348,6 +379,16 @@ components:
         - SUCCESS
         - FAILED
         - IN_PROGRESS
+    BankInfo:
+      type: object
+      properties:
+        amount:
+          type: integer
+    Money:
+      type: object
+      properties:
+        amount:
+          type: integer
     Project:
       type: object
       properties:

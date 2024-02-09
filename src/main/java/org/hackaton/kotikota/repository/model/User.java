@@ -31,4 +31,5 @@ public class User implements Serializable {
   private String email;
 
   private LocalDate birthdate;
+  private int balance;
 }

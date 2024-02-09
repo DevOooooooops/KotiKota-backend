@@ -3,6 +3,7 @@ package org.hackaton.kotikota.endpoint.rest.mapper;
 import static java.util.UUID.randomUUID;
 
 import lombok.AllArgsConstructor;
+import org.hackaton.kotikota.endpoint.rest.model.BankInfo;
 import org.hackaton.kotikota.endpoint.rest.model.CreateUser;
 import org.hackaton.kotikota.endpoint.rest.model.User;
 import org.hackaton.kotikota.endpoint.rest.model.UserProfile;
@@ -22,7 +23,8 @@ public class UserMapper {
             new UserProfile()
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
-                .email(user.getEmail()));
+                .email(user.getEmail()))
+        .bankInfo(new BankInfo().amount(user.getBalance()));
   }
 
   public org.hackaton.kotikota.repository.model.User toDomain(CreateUser createUser) {
