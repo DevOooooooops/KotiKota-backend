@@ -44,7 +44,7 @@ public class UserController {
     return mapper.toRest(userService.save(mapper.toDomain(userProfile, userId)));
   }
 
-  @PutMapping("/users/{userId}/deposits")
+  @PostMapping("/users/{userId}/deposits")
   public User deposit(@PathVariable String userId, @RequestBody Money money) {
     return mapper.toRest(bankInfoService.deposit(userId, money));
   }
