@@ -1,8 +1,10 @@
 package org.hackaton.kotikota.repository.model;
 
+import static jakarta.persistence.EnumType.STRING;
+import static org.hibernate.type.SqlTypes.NAMED_ENUM;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -15,11 +17,7 @@ import lombok.Setter;
 import lombok.ToString;
 import org.hackaton.kotikota.endpoint.rest.model.ProjectHealth;
 import org.hackaton.kotikota.endpoint.rest.model.ProjectStatus;
-import org.hibernate.annotations.ColumnTransformer;
 import org.hibernate.annotations.JdbcTypeCode;
-
-import static jakarta.persistence.EnumType.STRING;
-import static org.hibernate.type.SqlTypes.NAMED_ENUM;
 
 @Builder
 @AllArgsConstructor
@@ -45,6 +43,7 @@ public class Project {
   @Enumerated(STRING)
   @JdbcTypeCode(NAMED_ENUM)
   private ProjectStatus status;
+
   @Enumerated(STRING)
   @JdbcTypeCode(NAMED_ENUM)
   private ProjectHealth health;
