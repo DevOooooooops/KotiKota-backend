@@ -17,34 +17,35 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 @Generated
 public class FirebaseAuthenticator implements UsernamePasswordAuthenticator {
-    private final FirebaseAuth firebaseAuth;
-    private final UserService userService;
+  private final FirebaseAuth firebaseAuth;
+  private final UserService userService;
 
-    private FirebaseToken validateToken(String token) {
-        try {
-            return firebaseAuth.verifyIdToken(token);
-        } catch (FirebaseAuthException e) {
-            throw new ForbiddenException(e.getMessage());
-        }
+  private FirebaseToken validateToken(String token) {
+    try {
+      return firebaseAuth.verifyIdToken(token);
+    } catch (FirebaseAuthException e) {
+      throw new ForbiddenException(e.getMessage());
     }
+  }
 
-    public String getEmail(String token) {
-        return validateToken(token).getEmail();
-    }
+  public String getEmail(String token) {
+    return validateToken(token).getEmail();
+  }
 
-    @Override
-    public UserDetails retrieveUser(String username, UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken) {
-        String bearer = getBearerFromHeader(usernamePasswordAuthenticationToken);
-        String email = getEmail(bearer);
-        return new Principal(userService.getByEmail(email), bearer);
-    }
+  @Override
+  public UserDetails retrieveUser(
+      String username, UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken) {
+    String bearer = getBearerFromHeader(usernamePasswordAuthenticationToken);
+    String email = getEmail(bearer);
+    return new Principal(userService.getByEmail(email), bearer);
+  }
 
-    private String getBearerFromHeader(
-            UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken) {
-        Object tokenObject = usernamePasswordAuthenticationToken.getCredentials();
-        if (!(tokenObject instanceof String) || !((String) tokenObject).startsWith("Bearer ")) {
-            return null;
-        }
-        return ((String) tokenObject).substring("Bearer ".length()).trim();
+  private String getBearerFromHeader(
+      UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken) {
+    Object tokenObject = usernamePasswordAuthenticationToken.getCredentials();
+    if (!(tokenObject instanceof String) || !((String) tokenObject).startsWith("Bearer ")) {
+      return null;
     }
+    return ((String) tokenObject).substring("Bearer ".length()).trim();
+  }
 }

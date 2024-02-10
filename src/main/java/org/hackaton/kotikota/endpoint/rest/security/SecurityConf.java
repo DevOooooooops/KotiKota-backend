@@ -20,8 +20,6 @@ import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -100,16 +98,23 @@ public class SecurityConf {
                     .permitAll()
                     .requestMatchers(GET, "/projects/*/donations")
                     .permitAll()
-                    .requestMatchers(new SelfUserMatcher(PUT, "users/*/projects", authenticatedResourceProvider))
+                    .requestMatchers(
+                        new SelfUserMatcher(PUT, "users/*/projects", authenticatedResourceProvider))
                     .authenticated()
                     .requestMatchers(PUT, "/projects/*/comments")
                     .authenticated()
                     .requestMatchers(POST, "/projects/*/donations")
                     .authenticated()
-                    .requestMatchers(GET, "/users").authenticated()
-                    .requestMatchers(POST, "/users").anonymous()
-                    .requestMatchers(new SelfUserMatcher(GET, "/users/*", authenticatedResourceProvider)).authenticated()
-                    .requestMatchers(new SelfUserMatcher(PUT, "/users/*/profile", authenticatedResourceProvider)).authenticated()
+                    .requestMatchers(GET, "/users")
+                    .authenticated()
+                    .requestMatchers(POST, "/users")
+                    .anonymous()
+                    .requestMatchers(
+                        new SelfUserMatcher(GET, "/users/*", authenticatedResourceProvider))
+                    .authenticated()
+                    .requestMatchers(
+                        new SelfUserMatcher(PUT, "/users/*/profile", authenticatedResourceProvider))
+                    .authenticated()
                     .requestMatchers(GET, "/whoami")
                     .authenticated()
                     .requestMatchers(

@@ -30,12 +30,18 @@ public class ProjectService {
     return repository.saveAll(toCreate);
   }
 
-  public List<Project> getAllBy(String ownerId, String name, ProjectStatus status, ProjectHealth health, PageFromOne page, BoundedPageSize pageSize) {
+  public List<Project> getAllBy(
+      String ownerId,
+      String name,
+      ProjectStatus status,
+      ProjectHealth health,
+      PageFromOne page,
+      BoundedPageSize pageSize) {
     Pageable pageable = PageRequest.of(page.getValue() - 1, pageSize.getValue());
     return dao.findAllBy(ownerId, name, status, health, pageable);
   }
 
-  public List<Project> getAllWithDonationFrom(String userId){
+  public List<Project> getAllWithDonationFrom(String userId) {
     return repository.findAllWithDonationFrom(userId);
   }
 }

@@ -3,8 +3,8 @@ package org.hackaton.kotikota.endpoint.rest.mapper;
 import java.util.List;
 import java.util.Objects;
 import lombok.AllArgsConstructor;
-import org.hackaton.kotikota.endpoint.rest.model.Project;
 import org.hackaton.kotikota.endpoint.rest.model.CreateProject;
+import org.hackaton.kotikota.endpoint.rest.model.Project;
 import org.hackaton.kotikota.repository.model.ProjectTransaction;
 import org.hackaton.kotikota.service.ProjectTransactionService;
 import org.springframework.stereotype.Component;
@@ -13,8 +13,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class ProjectMapper {
   private final ProjectTransactionService projectTransactionService;
+
   public Project toRest(org.hackaton.kotikota.repository.model.Project domain) {
-    List<ProjectTransaction> linkedTransactions = projectTransactionService.getAllBy(domain.getId());
+    List<ProjectTransaction> linkedTransactions =
+        projectTransactionService.getAllBy(domain.getId());
     return new Project()
         .id(domain.getId())
         .name(domain.getName())
@@ -25,7 +27,8 @@ public class ProjectMapper {
         .status(domain.getStatus())
         .health(domain.getHealth())
         .targetAmount(domain.getTargetAmount())
-        .collectedAmount(linkedTransactions.stream().map(ProjectTransaction::getAmount).reduce(0,Integer::sum))
+        .collectedAmount(
+            linkedTransactions.stream().map(ProjectTransaction::getAmount).reduce(0, Integer::sum))
         .totalDonations(linkedTransactions.size());
   }
 

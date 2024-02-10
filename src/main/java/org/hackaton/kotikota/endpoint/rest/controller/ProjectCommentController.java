@@ -14,16 +14,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @AllArgsConstructor
 public class ProjectCommentController {
-    private final ProjectCommentService service;
-    private final ProjectCommentMapper mapper;
+  private final ProjectCommentService service;
+  private final ProjectCommentMapper mapper;
 
-    @GetMapping("/projects/{projectId}/comments")
-    public List<ProjectComment> getAllBy(@PathVariable String projectId) {
-        return service.getAllBy(projectId).stream().map(mapper::toRest).toList();
-    }
+  @GetMapping("/projects/{projectId}/comments")
+  public List<ProjectComment> getAllBy(@PathVariable String projectId) {
+    return service.getAllBy(projectId).stream().map(mapper::toRest).toList();
+  }
 
-    @PutMapping("/projects/{projectId}/comments")
-    public ProjectComment commentProject(@PathVariable String projectId, @RequestBody ProjectComment projectComment) {
-        return mapper.toRest(service.save(mapper.toDomain(projectComment)));
-    }
+  @PutMapping("/projects/{projectId}/comments")
+  public ProjectComment commentProject(
+      @PathVariable String projectId, @RequestBody ProjectComment projectComment) {
+    return mapper.toRest(service.save(mapper.toDomain(projectComment)));
+  }
 }

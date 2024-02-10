@@ -19,10 +19,10 @@ import org.hibernate.annotations.CreationTimestamp;
 @Builder
 @Setter
 public class ProjectComment {
-    @Id private String id;
-    private String projectId;
-    private String authorId;
-    private int note;
-    private String content;
-    @CreationTimestamp private Instant creationDatetime;
+  @Id private String id;
+  private String projectId;
+  private String authorId;
+  private int note;
+  private String content;
+  @CreationTimestamp private Instant creationDatetime;
 }

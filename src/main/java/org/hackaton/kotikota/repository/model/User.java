@@ -32,4 +32,7 @@ public class User implements Serializable {
 
   private LocalDate birthdate;
   private int balance;
+
+  @Column(name = "profile_picture")
+  private String profilePicture;
 }

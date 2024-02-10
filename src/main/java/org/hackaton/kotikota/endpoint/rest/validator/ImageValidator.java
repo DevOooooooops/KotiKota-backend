@@ -19,7 +19,9 @@ public class ImageValidator {
         return exceptionMessage;
       }
       String format = ImageIO.getImageReaders(iis).next().getFormatName();
-      if(format.equalsIgnoreCase("jpeg") || format.equalsIgnoreCase("jpg") || format.equalsIgnoreCase("png")) {
+      if (format.equalsIgnoreCase("jpeg")
+          || format.equalsIgnoreCase("jpg")
+          || format.equalsIgnoreCase("png")) {
         return exceptionMessage;
       }
       exceptionMessage.append("Invalid image type");

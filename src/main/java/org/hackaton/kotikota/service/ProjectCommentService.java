@@ -10,20 +10,24 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 public class ProjectCommentService {
-    private final ProjectCommentRepository repository;
+  private final ProjectCommentRepository repository;
 
-    public List<ProjectComment> getAllBy(String projectId) {
-        return repository.findAllByProjectId(projectId);
-    }
+  public List<ProjectComment> getAllBy(String projectId) {
+    return repository.findAllByProjectId(projectId);
+  }
 
-    public ProjectComment save(ProjectComment projectComment) {
-        Optional<ProjectComment> optionalPersisted = repository.findByProjectIdAndAuthorId(projectComment.getProjectId(), projectComment.getAuthorId());
-        return repository.save(
-                optionalPersisted.map(o -> {
-                    o.setNote(projectComment.getNote());
-                    o.setContent(projectComment.getContent());
-                    return o;
-                }).orElse(projectComment)
-        );
-    }
+  public ProjectComment save(ProjectComment projectComment) {
+    Optional<ProjectComment> optionalPersisted =
+        repository.findByProjectIdAndAuthorId(
+            projectComment.getProjectId(), projectComment.getAuthorId());
+    return repository.save(
+        optionalPersisted
+            .map(
+                o -> {
+                  o.setNote(projectComment.getNote());
+                  o.setContent(projectComment.getContent());
+                  return o;
+                })
+            .orElse(projectComment));
+  }
 }
