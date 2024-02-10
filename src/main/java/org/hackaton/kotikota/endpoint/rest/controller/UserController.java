@@ -26,7 +26,7 @@ public class UserController {
 
   @GetMapping("/users")
   public List<User> getAllUsers() {
-    return userService.getAll().stream().map(mapper::toRest).toList();
+    return userService.getAll().stream().map(mapper::toRestMasked).toList();
   }
 
   @GetMapping("/users/{userId}")

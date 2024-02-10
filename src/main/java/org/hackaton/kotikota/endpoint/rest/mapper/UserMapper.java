@@ -27,6 +27,18 @@ public class UserMapper {
         .bankInfo(new BankInfo().amount(user.getBalance()));
   }
 
+  public User toRestMasked(org.hackaton.kotikota.repository.model.User user) {
+    return new User()
+            .id(user.getId())
+            .firebaseId(user.getFirebaseId())
+            .profile(
+                    new UserProfile()
+                            .firstName(user.getFirstName())
+                            .lastName(user.getLastName())
+                            .email(user.getEmail()))
+            .bankInfo(null);
+  }
+
   public org.hackaton.kotikota.repository.model.User toDomain(CreateUser createUser) {
     return org.hackaton.kotikota.repository.model.User.builder()
         .id(randomUUID().toString())
