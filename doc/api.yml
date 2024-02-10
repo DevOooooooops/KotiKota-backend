@@ -272,6 +272,61 @@ paths:
           $ref: "#/components/responses/500"
         404:
           $ref: "#/components/responses/404"
+  /projects/{projectId}/comments:
+    get:
+      tags:
+        - Projects
+      summary: comment out a project
+      operationId: getProjectComments
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: The donations made on the project
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProjectDonation"
+        403:
+          $ref: "#/components/responses/403"
+        404:
+          $ref: "#/components/responses/404"
+        500:
+          $ref: "#/components/responses/500"
+    put:
+      tags:
+        - Projects
+      summary: comment out a project
+      operationId: commentProject
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProjectComment"
+      responses:
+        200:
+          description: The donations made on the project
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProjectDonation"
+        403:
+          $ref: "#/components/responses/403"
+        404:
+          $ref: "#/components/responses/404"
+        500:
+          $ref: "#/components/responses/500"
+
   /projects/{projectId}/donations:
     get:
       tags:
@@ -534,3 +589,16 @@ components:
         creationDatetime:
           type: string
           format: date-time
+    ProjectComment:
+      type: object
+      properties:
+        id:
+          type: string
+        projectId:
+          type: string
+        note:
+          type: integer
+          maximum: 5
+          minimum: 0
+        content:
+          type: string
