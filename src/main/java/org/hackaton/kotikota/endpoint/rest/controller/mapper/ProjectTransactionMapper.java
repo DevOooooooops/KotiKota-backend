@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class ProjectTransactionMapper {
   private final AuthenticatedResourceProvider authenticatedResourceProvider;
+
   public ProjectDonation toRest(ProjectTransaction projectTransaction) {
     return new ProjectDonation()
         .id(projectTransaction.getId())
@@ -27,7 +28,7 @@ public class ProjectTransactionMapper {
 
   public ProjectTransaction toIncome(CreateProjectDonation createProjectDonation) {
     String currentUserId = authenticatedResourceProvider.getAuthenticatedUser().getId();
-    if (!Objects.equals(currentUserId, createProjectDonation.getSource())){
+    if (!Objects.equals(currentUserId, createProjectDonation.getSource())) {
       throw new BadRequestException("You can't create a transaction from somebody else's account");
     }
     return ProjectTransaction.projectTransactionBuilder()

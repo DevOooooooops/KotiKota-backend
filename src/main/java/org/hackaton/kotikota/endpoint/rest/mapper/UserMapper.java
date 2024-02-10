@@ -24,20 +24,22 @@ public class UserMapper {
                 .birthdate(user.getBirthdate())
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
-                .email(user.getEmail()))
+                .email(user.getEmail())
+                .profilePicture(user.getProfilePicture()))
         .bankInfo(new BankInfo().amount(user.getBalance()));
   }
 
   public User toRestMasked(org.hackaton.kotikota.repository.model.User user) {
     return new User()
-            .id(user.getId())
-            .firebaseId(user.getFirebaseId())
-            .profile(
-                    new UserProfile()
-                            .firstName(user.getFirstName())
-                            .lastName(user.getLastName())
-                            .email(user.getEmail()))
-            .bankInfo(null);
+        .id(user.getId())
+        .firebaseId(user.getFirebaseId())
+        .profile(
+            new UserProfile()
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .email(user.getEmail())
+                .profilePicture(user.getProfilePicture()))
+        .bankInfo(null);
   }
 
   public org.hackaton.kotikota.repository.model.User toDomain(CreateUser createUser) {
@@ -53,6 +55,7 @@ public class UserMapper {
     persisted.setFirstName(profile.getFirstName());
     persisted.setLastName(profile.getLastName());
     persisted.setBirthdate(profile.getBirthdate());
+    persisted.setProfilePicture(profile.getProfilePicture());
     return persisted;
   }
 }

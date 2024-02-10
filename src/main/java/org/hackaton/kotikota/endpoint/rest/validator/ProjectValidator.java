@@ -6,13 +6,13 @@ import java.util.function.Consumer;
 import lombok.AllArgsConstructor;
 import org.hackaton.kotikota.endpoint.rest.exception.BadRequestException;
 import org.hackaton.kotikota.endpoint.rest.model.CreateProject;
-import org.hackaton.kotikota.endpoint.rest.model.Project;
 import org.springframework.stereotype.Component;
 
 @Component
 @AllArgsConstructor
 public class ProjectValidator implements Consumer<CreateProject> {
   private final ImageValidator imageValidator;
+
   public void accept(List<CreateProject> projects) {
     projects.forEach(this);
   }
@@ -29,8 +29,9 @@ public class ProjectValidator implements Consumer<CreateProject> {
     if (Objects.isNull(project.getDeadline())) {
       exceptionMessageBuilder.append("Deadline is mandatory.");
     }
-    if(project.getLogo() != null) {
-      exceptionMessageBuilder.append(imageValidator.getImageType(project.getLogo(), exceptionMessageBuilder));
+    if (project.getLogo() != null) {
+      exceptionMessageBuilder.append(
+          imageValidator.getImageType(project.getLogo(), exceptionMessageBuilder));
     }
     String exceptionMessage = exceptionMessageBuilder.toString();
     if (!exceptionMessage.isBlank()) {

@@ -7,22 +7,22 @@ import org.springframework.stereotype.Component;
 @Component
 @AllArgsConstructor
 public class ProjectCommentMapper {
-    public ProjectComment toRest(org.hackaton.kotikota.repository.model.ProjectComment domain) {
-        return new ProjectComment()
-                .id(domain.getId())
-                .projectId(domain.getProjectId())
-                .content(domain.getContent())
-                .authorId(domain.getAuthorId())
-                .creationDatetime(domain.getCreationDatetime())
-                .note(domain.getNote());
-    }
+  public ProjectComment toRest(org.hackaton.kotikota.repository.model.ProjectComment domain) {
+    return new ProjectComment()
+        .id(domain.getId())
+        .projectId(domain.getProjectId())
+        .content(domain.getContent())
+        .authorId(domain.getAuthorId())
+        .creationDatetime(domain.getCreationDatetime())
+        .note(domain.getNote());
+  }
 
-    public org.hackaton.kotikota.repository.model.ProjectComment toDomain(ProjectComment rest) {
-        return org.hackaton.kotikota.repository.model.ProjectComment.builder()
-                .id(rest.getId())
-                .projectId(rest.getProjectId())
-                .content(rest.getContent())
-                .note(rest.getNote())
-                .build();
-    }
+  public org.hackaton.kotikota.repository.model.ProjectComment toDomain(ProjectComment rest) {
+    return org.hackaton.kotikota.repository.model.ProjectComment.builder()
+        .id(rest.getId())
+        .projectId(rest.getProjectId())
+        .content(rest.getContent())
+        .note(rest.getNote())
+        .build();
+  }
 }

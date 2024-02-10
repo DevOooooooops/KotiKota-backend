@@ -3,8 +3,8 @@ package org.hackaton.kotikota.endpoint.rest.controller;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.hackaton.kotikota.endpoint.rest.mapper.ProjectMapper;
-import org.hackaton.kotikota.endpoint.rest.model.Project;
 import org.hackaton.kotikota.endpoint.rest.model.CreateProject;
+import org.hackaton.kotikota.endpoint.rest.model.Project;
 import org.hackaton.kotikota.endpoint.rest.model.ProjectHealth;
 import org.hackaton.kotikota.endpoint.rest.model.ProjectStatus;
 import org.hackaton.kotikota.endpoint.rest.validator.ProjectValidator;
@@ -33,7 +33,9 @@ public class ProjectController {
       @RequestParam(required = false) ProjectHealth health,
       @RequestParam(required = false, defaultValue = "1") PageFromOne page,
       @RequestParam(required = false, defaultValue = "30") BoundedPageSize pageSize) {
-    return service.getAllBy(ownerId, name, status, health, page, pageSize).stream().map(mapper::toRest).toList();
+    return service.getAllBy(ownerId, name, status, health, page, pageSize).stream()
+        .map(mapper::toRest)
+        .toList();
   }
 
   @GetMapping("/projects/{projectId}")
@@ -42,7 +44,8 @@ public class ProjectController {
   }
 
   @PutMapping("users/{userId}/projects")
-  public List<Project> crupdateProjects(@PathVariable String userId, @RequestBody List<CreateProject> toCrupdate) {
+  public List<Project> crupdateProjects(
+      @PathVariable String userId, @RequestBody List<CreateProject> toCrupdate) {
     validator.accept(toCrupdate);
     return service.crupdateProjects(toCrupdate.stream().map(mapper::toDomain).toList()).stream()
         .map(mapper::toRest)
@@ -50,7 +53,7 @@ public class ProjectController {
   }
 
   @GetMapping("/users/{userId}/contributed-projects")
-  public List<Project> getContributed(@PathVariable String userId){
+  public List<Project> getContributed(@PathVariable String userId) {
     return service.getAllWithDonationFrom(userId).stream().map(mapper::toRest).toList();
   }
 }
