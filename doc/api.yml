@@ -508,6 +508,8 @@ components:
       properties:
         totalDonations:
           type: integer
+        collectedAmount:
+          type: integer
     CreateProjectDonation:
       type: object
       properties:

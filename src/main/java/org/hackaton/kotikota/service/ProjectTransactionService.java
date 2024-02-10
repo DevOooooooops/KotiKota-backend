@@ -32,7 +32,7 @@ public class ProjectTransactionService {
     return dao.getAllBy(projectId, userId, beginDate, endDate);
   }
 
-  public int countTotalDonationsBy(String projectId){
-    return repository.countAllByProjectId(projectId);
+  public List<ProjectTransaction> getAllBy(String projectId){
+    return repository.findAllByProjectId(projectId);
   }
 }
