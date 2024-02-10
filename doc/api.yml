@@ -557,6 +557,9 @@ components:
           $ref: '#/components/schemas/ProjectStatus'
         health:
           $ref: '#/components/schemas/ProjectHealth'
+        logo:
+          type: string
+          description: the base64 encoded image
     Project:
       allOf:
         - $ref: "#/components/schemas/CreateProject"
