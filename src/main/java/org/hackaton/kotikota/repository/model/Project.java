@@ -40,6 +40,8 @@ public class Project {
   @Column(name = "owner_id")
   private String ownerId;
 
+  private String logo;
+
   @Enumerated(STRING)
   @JdbcTypeCode(NAMED_ENUM)
   private ProjectStatus status;

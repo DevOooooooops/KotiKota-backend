@@ -1,0 +1,1 @@
+alter table "project" add column if not exists "logo" text ;
