@@ -6,6 +6,7 @@ import com.google.firebase.auth.FirebaseToken;
 import lombok.AllArgsConstructor;
 import org.hackaton.kotikota.Generated;
 import org.hackaton.kotikota.endpoint.rest.exception.ForbiddenException;
+import org.hackaton.kotikota.endpoint.rest.exception.NotFoundException;
 import org.hackaton.kotikota.endpoint.rest.security.UsernamePasswordAuthenticator;
 import org.hackaton.kotikota.endpoint.rest.security.model.Principal;
 import org.hackaton.kotikota.repository.model.User;
@@ -42,7 +43,7 @@ public class FirebaseAuthenticator implements UsernamePasswordAuthenticator {
     try {
       User byEmail = userService.getByEmail(email);
       return new Principal(byEmail, bearer);
-    } catch (Exception ignored) {
+    } catch (NotFoundException ignored) {
       throw new UsernameNotFoundException("Bad Credentials");
     }
   }
