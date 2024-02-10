@@ -80,6 +80,7 @@ public class SecurityConf {
                         new AntPathRequestMatcher("/hello", GET.toString()),
                         new AntPathRequestMatcher("/projects", GET.toString()),
                         new AntPathRequestMatcher("/users", POST.toString()),
+                        new AntPathRequestMatcher("/projects/*/contributors", GET.toString()),
                         new AntPathRequestMatcher("/projects/*/comments", GET.toString()),
                         new AntPathRequestMatcher("/projects/*", GET.toString())))),
             AnonymousAuthenticationFilter.class)
@@ -97,6 +98,8 @@ public class SecurityConf {
                     .requestMatchers(GET, "/projects/*/comments")
                     .permitAll()
                     .requestMatchers(GET, "/projects/*/donations")
+                    .permitAll()
+                    .requestMatchers(GET, "/projects/*/contributors")
                     .permitAll()
                     .requestMatchers(
                         new SelfUserMatcher(PUT, "users/*/projects", authenticatedResourceProvider))
