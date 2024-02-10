@@ -276,7 +276,7 @@ paths:
     get:
       tags:
         - Projects
-      summary: comment out a project
+      summary: show comments on a project
       operationId: getProjectComments
       parameters:
         - name: projectId
@@ -286,7 +286,7 @@ paths:
             type: string
       responses:
         200:
-          description: The donations made on the project
+          description: the comments on a project
           content:
             application/json:
               schema:
@@ -315,7 +315,7 @@ paths:
               $ref: "#/components/schemas/ProjectComment"
       responses:
         200:
-          description: The donations made on the project
+          description: The comments made on the project
           content:
             application/json:
               schema:
@@ -500,6 +500,9 @@ components:
         email:
           type: string
           format: email
+        birthdate:
+          type: string
+          format: date
     User:
       type: object
       properties:

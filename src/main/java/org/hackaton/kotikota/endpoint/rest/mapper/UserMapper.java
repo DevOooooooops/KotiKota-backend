@@ -21,6 +21,7 @@ public class UserMapper {
         .firebaseId(user.getFirebaseId())
         .profile(
             new UserProfile()
+                .birthdate(user.getBirthdate())
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .email(user.getEmail()))
@@ -51,6 +52,7 @@ public class UserMapper {
     persisted.setEmail(profile.getEmail());
     persisted.setFirstName(profile.getFirstName());
     persisted.setLastName(profile.getLastName());
+    persisted.setBirthdate(profile.getBirthdate());
     return persisted;
   }
 }
