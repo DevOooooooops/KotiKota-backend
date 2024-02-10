@@ -12,6 +12,8 @@ public class ProjectCommentMapper {
                 .id(domain.getId())
                 .projectId(domain.getProjectId())
                 .content(domain.getContent())
+                .authorId(domain.getAuthorId())
+                .creationDatetime(domain.getCreationDatetime())
                 .note(domain.getNote());
     }
 

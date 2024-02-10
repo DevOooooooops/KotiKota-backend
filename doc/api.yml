@@ -606,5 +606,10 @@ components:
           type: integer
           maximum: 5
           minimum: 0
+        authorId:
+          type: string
         content:
           type: string
+        creationDatetime:
+          type: string
+          format: date-time

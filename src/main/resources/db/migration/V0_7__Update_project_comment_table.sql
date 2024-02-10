@@ -1,0 +1,1 @@
+alter table "project_comment" add column creation_datetime timestamptz default now();
