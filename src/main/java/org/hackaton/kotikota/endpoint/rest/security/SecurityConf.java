@@ -100,7 +100,7 @@ public class SecurityConf {
                     .permitAll()
                     .requestMatchers(GET, "/projects/*/donations")
                     .permitAll()
-                    .requestMatchers(PUT, "/projects")
+                    .requestMatchers(new SelfUserMatcher(PUT, "users/*/projects", authenticatedResourceProvider))
                     .authenticated()
                     .requestMatchers(PUT, "/projects/*/comments")
                     .authenticated()

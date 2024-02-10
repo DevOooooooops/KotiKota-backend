@@ -34,4 +34,8 @@ public class ProjectService {
     Pageable pageable = PageRequest.of(page.getValue() - 1, pageSize.getValue());
     return dao.findAllBy(ownerId, name, status, health, pageable);
   }
+
+  public List<Project> getAllWithDonationFrom(String userId){
+    return dao.findAllWithDonationFrom(userId);
+  }
 }

@@ -3,6 +3,7 @@ package org.hackaton.kotikota.repository.dao;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import lombok.AllArgsConstructor;
 import org.hackaton.kotikota.endpoint.rest.model.ProjectHealth;
 import org.hackaton.kotikota.endpoint.rest.model.ProjectStatus;
 import org.hackaton.kotikota.repository.model.Project;
+import org.hackaton.kotikota.repository.model.ProjectTransaction;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
@@ -48,6 +50,18 @@ public class ProjectDao {
                 .createQuery(query)
                 .setFirstResult(pageable.getPageNumber() * pageable.getPageSize())
                 .setMaxResults(pageable.getPageSize())
+                .getResultList();
+    }
+
+    public List<Project> findAllWithDonationFrom(String userId){
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Project> query = cb.createQuery(Project.class);
+        Root<Project> root = query.from(Project.class);
+        Join<Project, ProjectTransaction> join = root.join("projectId");
+
+        query.where(new Predicate[]{cb.equal(join.get("userId"), userId)}).distinct(true);
+        return entityManager
+                .createQuery(query)
                 .getResultList();
     }
 }

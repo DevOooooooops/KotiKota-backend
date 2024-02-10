@@ -41,11 +41,16 @@ public class ProjectController {
     return mapper.toRest(service.getProjectById(projectId));
   }
 
-  @PutMapping("/projects")
-  public List<Project> crupdateProjects(@RequestBody List<CreateProject> toCrupdate) {
+  @PutMapping("users/{userId}/projects")
+  public List<Project> crupdateProjects(@PathVariable String userId, @RequestBody List<CreateProject> toCrupdate) {
     validator.accept(toCrupdate);
     return service.crupdateProjects(toCrupdate.stream().map(mapper::toDomain).toList()).stream()
         .map(mapper::toRest)
         .toList();
+  }
+
+  @GetMapping("/users/{userId}/contributed-projects")
+  public List<Project> getContributed(@PathVariable String userId){
+    return service.getAllWithDonationFrom(userId).stream().map(mapper::toRest).toList();
   }
 }
