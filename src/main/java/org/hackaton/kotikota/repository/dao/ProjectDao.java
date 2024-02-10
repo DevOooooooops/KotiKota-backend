@@ -52,16 +52,4 @@ public class ProjectDao {
                 .setMaxResults(pageable.getPageSize())
                 .getResultList();
     }
-
-    public List<Project> findAllWithDonationFrom(String userId){
-        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Project> query = cb.createQuery(Project.class);
-        Root<Project> root = query.from(Project.class);
-        Join<Project, ProjectTransaction> join = root.join("projectId");
-
-        query.where(new Predicate[]{cb.equal(join.get("userId"), userId)}).distinct(true);
-        return entityManager
-                .createQuery(query)
-                .getResultList();
-    }
 }

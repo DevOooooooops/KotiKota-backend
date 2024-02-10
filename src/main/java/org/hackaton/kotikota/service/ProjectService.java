@@ -36,6 +36,6 @@ public class ProjectService {
   }
 
   public List<Project> getAllWithDonationFrom(String userId){
-    return dao.findAllWithDonationFrom(userId);
+    return repository.findAllWithDonationFrom(userId);
   }
 }
