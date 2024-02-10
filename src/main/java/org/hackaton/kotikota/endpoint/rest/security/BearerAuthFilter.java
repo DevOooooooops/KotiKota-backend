@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
@@ -26,9 +27,8 @@ public class BearerAuthFilter extends AbstractAuthenticationProcessingFilter {
   public Authentication attemptAuthentication(
       HttpServletRequest request, HttpServletResponse response) {
     String bearer = request.getHeader(authHeader);
-    AuthenticationManager authenticationManager = getAuthenticationManager();
-    return authenticationManager.authenticate(
-        new UsernamePasswordAuthenticationToken(bearer, bearer));
+    AuthenticationManager manager = getAuthenticationManager();
+    return manager.authenticate(new UsernamePasswordAuthenticationToken(bearer, bearer));
   }
 
   @Override
