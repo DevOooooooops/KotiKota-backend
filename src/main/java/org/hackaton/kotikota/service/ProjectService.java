@@ -1,12 +1,14 @@
 package org.hackaton.kotikota.service;
 
 import java.util.List;
-import java.util.Objects;
 import lombok.AllArgsConstructor;
 import org.hackaton.kotikota.endpoint.rest.exception.NotFoundException;
+import org.hackaton.kotikota.endpoint.rest.model.ProjectHealth;
+import org.hackaton.kotikota.endpoint.rest.model.ProjectStatus;
 import org.hackaton.kotikota.model.BoundedPageSize;
 import org.hackaton.kotikota.model.PageFromOne;
 import org.hackaton.kotikota.repository.ProjectRepository;
+import org.hackaton.kotikota.repository.dao.ProjectDao;
 import org.hackaton.kotikota.repository.model.Project;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class ProjectService {
   private final ProjectRepository repository;
+  private final ProjectDao dao;
 
   public Project getProjectById(String id) {
     return repository
@@ -27,11 +30,8 @@ public class ProjectService {
     return repository.saveAll(toCreate);
   }
 
-  public List<Project> getAllByOwnerId(String ownerId, PageFromOne page, BoundedPageSize pageSize) {
-    Pageable pageable = PageRequest.of(page.getValue() - 1, pageSize.getValue() - 1);
-    if (Objects.nonNull(ownerId)) {
-      return repository.getAllByOwnerId(ownerId, pageable);
-    }
-    return repository.findAll(pageable).getContent();
+  public List<Project> getAllBy(String ownerId, String name, ProjectStatus status, ProjectHealth health, PageFromOne page, BoundedPageSize pageSize) {
+    Pageable pageable = PageRequest.of(page.getValue() - 1, pageSize.getValue());
+    return dao.findAllBy(ownerId, name, status, health, pageable);
   }
 }

@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import org.hackaton.kotikota.endpoint.rest.mapper.ProjectMapper;
 import org.hackaton.kotikota.endpoint.rest.model.Project;
 import org.hackaton.kotikota.endpoint.rest.model.CreateProject;
+import org.hackaton.kotikota.endpoint.rest.model.ProjectHealth;
+import org.hackaton.kotikota.endpoint.rest.model.ProjectStatus;
 import org.hackaton.kotikota.endpoint.rest.validator.ProjectValidator;
 import org.hackaton.kotikota.model.BoundedPageSize;
 import org.hackaton.kotikota.model.PageFromOne;
@@ -26,9 +28,12 @@ public class ProjectController {
   @GetMapping("/projects")
   public List<Project> getAllProjects(
       @RequestParam(required = false) String ownerId,
+      @RequestParam(required = false) String name,
+      @RequestParam(required = false) ProjectStatus status,
+      @RequestParam(required = false) ProjectHealth health,
       @RequestParam(required = false, defaultValue = "1") PageFromOne page,
       @RequestParam(required = false, defaultValue = "30") BoundedPageSize pageSize) {
-    return service.getAllByOwnerId(ownerId, page, pageSize).stream().map(mapper::toRest).toList();
+    return service.getAllBy(ownerId, name, status, health, page, pageSize).stream().map(mapper::toRest).toList();
   }
 
   @GetMapping("/projects/{projectId}")

@@ -184,6 +184,21 @@ paths:
           schema:
             type: string
         - in: query
+          name: name
+          description: Filter projects by name
+          schema:
+            type: string
+        - in: query
+          name: status
+          description: Filter projects by ProjectStatus
+          schema:
+            $ref: "#/components/schemas/ProjectStatus"
+        - in: query
+          name: health
+          description: Filter projects by ProjectHealth
+          schema:
+            $ref: "#/components/schemas/ProjectHealth"
+        - in: query
           name: page
           schema:
             $ref: '#/components/schemas/Page'
