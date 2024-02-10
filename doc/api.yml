@@ -537,6 +537,8 @@ components:
         birthdate:
           type: string
           format: date
+        profile_picture:
+          type: string
     User:
       type: object
       properties:
