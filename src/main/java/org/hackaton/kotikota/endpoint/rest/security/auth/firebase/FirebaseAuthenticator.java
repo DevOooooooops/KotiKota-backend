@@ -8,9 +8,11 @@ import org.hackaton.kotikota.Generated;
 import org.hackaton.kotikota.endpoint.rest.exception.ForbiddenException;
 import org.hackaton.kotikota.endpoint.rest.security.UsernamePasswordAuthenticator;
 import org.hackaton.kotikota.endpoint.rest.security.model.Principal;
+import org.hackaton.kotikota.repository.model.User;
 import org.hackaton.kotikota.service.UserService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -37,7 +39,12 @@ public class FirebaseAuthenticator implements UsernamePasswordAuthenticator {
       String username, UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken) {
     String bearer = getBearerFromHeader(usernamePasswordAuthenticationToken);
     String email = getEmail(bearer);
-    return new Principal(userService.getByEmail(email), bearer);
+    try {
+      User byEmail = userService.getByEmail(email);
+      return new Principal(byEmail, bearer);
+    } catch (Exception ignored) {
+      throw new UsernameNotFoundException("Bad Credentials");
+    }
   }
 
   private String getBearerFromHeader(
