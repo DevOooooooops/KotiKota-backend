@@ -4,17 +4,18 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
 import org.hackaton.kotikota.endpoint.rest.exception.BadRequestException;
+import org.hackaton.kotikota.endpoint.rest.model.CreateProject;
 import org.hackaton.kotikota.endpoint.rest.model.Project;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ProjectValidator implements Consumer<Project> {
-  public void accept(List<Project> projects) {
-    projects.forEach(this::accept);
+public class ProjectValidator implements Consumer<CreateProject> {
+  public void accept(List<CreateProject> projects) {
+    projects.forEach(this);
   }
 
   @Override
-  public void accept(Project project) {
+  public void accept(CreateProject project) {
     StringBuilder exceptionMessageBuilder = new StringBuilder();
     if (Objects.isNull(project.getId())) {
       exceptionMessageBuilder.append("Id is mandatory.");

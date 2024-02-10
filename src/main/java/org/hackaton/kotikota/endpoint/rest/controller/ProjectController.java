@@ -4,6 +4,7 @@ import java.util.List;
 import lombok.AllArgsConstructor;
 import org.hackaton.kotikota.endpoint.rest.mapper.ProjectMapper;
 import org.hackaton.kotikota.endpoint.rest.model.Project;
+import org.hackaton.kotikota.endpoint.rest.model.CreateProject;
 import org.hackaton.kotikota.endpoint.rest.validator.ProjectValidator;
 import org.hackaton.kotikota.model.BoundedPageSize;
 import org.hackaton.kotikota.model.PageFromOne;
@@ -36,7 +37,7 @@ public class ProjectController {
   }
 
   @PutMapping("/projects")
-  public List<Project> crupdateProjects(@RequestBody List<Project> toCrupdate) {
+  public List<Project> crupdateProjects(@RequestBody List<CreateProject> toCrupdate) {
     validator.accept(toCrupdate);
     return service.crupdateProjects(toCrupdate.stream().map(mapper::toDomain).toList()).stream()
         .map(mapper::toRest)

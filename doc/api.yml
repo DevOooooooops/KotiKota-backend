@@ -215,7 +215,7 @@ paths:
             schema:
               type: array
               items:
-                $ref: '#/components/schemas/Project'
+                $ref: '#/components/schemas/CreateProject'
       responses:
         200:
           description: The created projects
@@ -467,7 +467,7 @@ components:
       properties:
         amount:
           type: integer
-    Project:
+    CreateProject:
       type: object
       properties:
         id:
@@ -487,6 +487,12 @@ components:
           $ref: '#/components/schemas/ProjectStatus'
         health:
           $ref: '#/components/schemas/ProjectHealth'
+    Project:
+      allOf:
+        - $ref: "#/components/schemas/CreateProject"
+      properties:
+        totalDonations:
+          type: integer
     CreateProjectDonation:
       type: object
       properties:

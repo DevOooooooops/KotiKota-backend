@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ProjectTransactionRepository extends JpaRepository<ProjectTransaction, String> {
-  List<ProjectTransaction> findAllByProjectIdAndCreationDatetimeBetween(
-      String projectId, Instant beginDate, Instant endDate);
+  List<ProjectTransaction> findAllByProjectId(String projectId);
+  int countAllByProjectId(String projectId);
 }

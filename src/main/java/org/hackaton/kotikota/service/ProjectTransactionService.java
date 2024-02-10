@@ -31,4 +31,8 @@ public class ProjectTransactionService {
       String projectId, String userId, LocalDate beginDate, LocalDate endDate) {
     return dao.getAllBy(projectId, userId, beginDate, endDate);
   }
+
+  public int countTotalDonationsBy(String projectId){
+    return repository.countAllByProjectId(projectId);
+  }
 }
