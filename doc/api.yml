@@ -304,6 +304,38 @@ paths:
           $ref: "#/components/responses/500"
         404:
           $ref: "#/components/responses/404"
+  /projects/{projectId}/contributors:
+    get:
+      tags:
+        - Projects
+      summary: Get list of contributors on a specific project
+      operationId: getProjectContributors
+      security: [ ]
+      parameters:
+        - name: projectId
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        200:
+          description: List of contributors
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  project:
+                    $ref: '#/components/schemas/Project'
+                  contributors:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Contributors'
+        500:
+          $ref: "#/components/responses/500"
+        404:
+          $ref: "#/components/responses/404"
+
   /projects/{projectId}/comments:
     get:
       tags:
@@ -649,3 +681,12 @@ components:
         creationDatetime:
           type: string
           format: date-time
+    Contributors:
+      type: object
+      properties:
+        first_name:
+          type: string
+        last_name:
+          type: string
+        donation_amount:
+          type: string
